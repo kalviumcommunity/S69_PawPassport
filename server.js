@@ -2,11 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 require('dotenv').config();
+const route = require('./router.js');
+
+app.use(express.json());
+
 let a = false;
 mongoose.connect(process.env.db_url)
 .then(() => {console.log("Connected to DataBase"); a = true})
 .catch((err) => console.log(`Error while connecting ${err}`));
-
 
 
 app.get("/",(req,res)=>{
@@ -26,3 +29,5 @@ app.listen(5000,()=>{
     console.log("Server is running on port 5000");
 })
 
+
+app.use('/api/users',route);

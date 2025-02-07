@@ -1,0 +1,18 @@
+meta {
+  name: update
+  type: http
+  seq: 6
+}
+
+put {
+  url: http://localhost:5000/api/users/update
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name" : "Manoj N",
+    "email" : "manojgowdan807@gmail.com"
+  }
+}
