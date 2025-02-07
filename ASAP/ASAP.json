@@ -1,0 +1,65 @@
+{
+  "name": "ASAP",
+  "version": "1",
+  "items": [
+    {
+      "type": "http",
+      "name": "data",
+      "seq": 2,
+      "request": {
+        "url": "http://localhost:5000/ping",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "CRUD",
+      "seq": 3,
+      "request": {
+        "url": "http://localhost:5000/api/users/delete",
+        "method": "DELETE",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"name\" : \"Harish N\",\n  \"email\" : \"harishgowdan807@gmail.com\",\n  \"country\" : \"India\"\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    }
+  ],
+  "environments": [],
+  "brunoConfig": {
+    "version": "1",
+    "name": "ASAP",
+    "type": "collection",
+    "ignore": [
+      "node_modules",
+      ".git"
+    ]
+  }
+}

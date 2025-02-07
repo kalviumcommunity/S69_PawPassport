@@ -1,0 +1,19 @@
+meta {
+  name: create
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:5000/api/users/create
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name" : "Manoj",
+    "email" : "manojgowdan807@gmail.com",
+    "country" : "India"
+  }
+}
