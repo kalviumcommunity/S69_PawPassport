@@ -7,7 +7,7 @@ const route = require('./router.js');
 app.use(express.json());
 
 let a = false;
-mongoose.connect(process.env.db_url)
+mongoose.connect(process.env.db_URL)
 .then(() => {console.log("Connected to DataBase"); a = true})
 .catch((err) => console.log(`Error while connecting ${err}`));
 
