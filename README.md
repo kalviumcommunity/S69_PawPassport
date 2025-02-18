@@ -33,5 +33,8 @@ Planetary Explorer
 - Users can manage their pets' profiles, view passport details, and track their data efficiently.
 
 
+##### Deployed Link of backend: https://s69-pawpassport.onrender.com
 
-##### Deployed Link: https://s69-pawpassport.onrender.com
+##### Deployed Link of frontend: https://statuesque-donut-6e2798.netlify.app/
+
+
