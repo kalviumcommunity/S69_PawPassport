@@ -1,4 +1,5 @@
 import React from 'react'
+import Button from '../components/button'
 const About = () => {
     return (
     <>
@@ -15,9 +16,7 @@ const About = () => {
                 <p className="text-lg max-w-2xl">
                     PawPassport helps pet owners store vet records, check travel guidelines, and manage pet documents with ease.
                 </p>
-                <button className="mt-6 bg-pink-500 text-white px-6 py-3 rounded-full font-bold shadow-lg hover:scale-105 transition">
-                    Get Started 🐶
-                </button>
+                 <Button/>
                 </section>
 
                 {/* Features Section */}
