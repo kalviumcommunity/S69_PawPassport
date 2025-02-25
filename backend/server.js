@@ -1,33 +1,32 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const app = express();
-require('dotenv').config();
 const route = require('./router.js');
+const connect = require('./database.js')
+const cors = require('cors')
 
+app.use(cors())
 app.use(express.json());
 
-let a = false;
-mongoose.connect(process.env.db_URL)
-.then(() => {console.log("Connected to DataBase"); a = true})
-.catch((err) => console.log(`Error while connecting ${err}`));
-
+connect();
 
 app.get("/",(req,res)=>{
-    // res.send("Hello, welcome to my ASAP Project");
-    if(a){
-        res.send("Connected to DataBase")
-    }else{
-        res.send(`Error while connecting `)
-    }
+    res.send("Hello, welcome to my ASAP Project");
+    // if(a){
+    //     res.send("Connected to DataBase")
+    // }else{
+    //     res.send(`Error while connecting `)
+    // }
 })
 
 app.get("/ping",(req,res)=>{
     res.send("Pong");
 })
 
+app.use('/api/users',route);
+
+
 app.listen(5000,()=>{
     console.log("Server is running on port 5000");
 })
 
 
-app.use('/api/users',route);

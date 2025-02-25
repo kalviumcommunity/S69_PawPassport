@@ -1,75 +1,77 @@
-const data = [];
+const User = require("./schema");  // Import Mongoose model
 
-const create = async(req,res) => {
-  
-    try{
-        const user = req.body;
-        const UserExist = data.find((i) => user.email == i.email);
-  
-        if(UserExist){
-          return res.status(400).json({message : "user exist"});
+// CREATE User
+const create = async (req, res) => {
+    try {
+        const { name, email, country } = req.body;
+
+        if (!name || !email || !country) {
+            return res.status(400).json({ message: "All fields are required" });
         }
 
-        const {name,email,country} = req.body;
-        if(!name || !email || !country){
-            return res.status(400).json({meaasge : "All fields are required"})
+        const UserExist = await User.findOne({ email });
+
+        if (UserExist) {
+            return res.status(400).json({ message: "User already exists" });
         }
-        
-        data.push({ name, email, country})
 
-        res.status(201).json({message: "User data saved"});
+        const newUser = new User({ name, email, country });
+        await newUser.save();
 
-    }catch(err){
-       res.status(500).json({message : "Internal server error"});
+        res.status(201).json({ message: "User data saved", user: newUser });
+
+    } catch (err) {
+        res.status(500).json({ message: "Internal server error", error: err.message });
     }
+};
 
-}
-
-const read = async(req,res) => {
-
-    try{
-       res.status(200).json(data);
-    }catch(err){
-        res.status(500).json({message : "Internal server error"});
+// READ Users
+const read = async (req, res) => {
+    try {
+        const users = await User.find();
+        res.status(200).json(users);
+    } catch (err) {
+        res.status(500).json({ message: "Internal server error", error: err.message });
     }
-}
+};
 
-const update = async(req,res) => {
-    try{
-     const {email,name,country} = req.body;
+// UPDATE User
+const update = async (req, res) => {
+    try {
+        const { email, name, country } = req.body;
 
-     const user = data.find((i) => i.email == email);
-     const index = data.findIndex((i) => i.email == email)
-     if(name){
-        user.name = name;
-     }
-     if(country){
-        user.country = country;
-     }
-      
-     data[index] = user;
+        const user = await User.findOne({ email });
 
-     res.status(200).json({message : "updated"})
-     
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
 
-    }catch(err){
-      res.status(500).json({message : "internal server err"});
+        if (name) user.name = name;
+        if (country) user.country = country;
+
+        await user.save();
+
+        res.status(200).json({ message: "Updated successfully", user });
+    } catch (err) {
+        res.status(500).json({ message: "Internal server error", error: err.message });
     }
-}
+};
 
-const Delete = async(req,res) => {
-   try{ 
-    const {email} = req.body;
+// DELETE User
+const Delete = async (req, res) => {
+    try {
+        const { email } = req.body;
 
-    const userIndex = data.findIndex((i) => i.email == email)
+        const user = await User.findOneAndDelete({ email });
 
-    data.splice(userIndex,1);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
 
-    res.status(200).json({message : "delete successfull"});
+        res.status(200).json({ message: "Delete successful" });
+    } catch (err) {
+        res.status(500).json({ message: "Internal server error", error: err.message });
+    }
+};
 
-   }catch(err){
-     res.status(500).json({message : "internal server error"})
-   }
-}
-
-module.exports = {create, read, update, Delete}
+module.exports = { create, read, update, Delete };
