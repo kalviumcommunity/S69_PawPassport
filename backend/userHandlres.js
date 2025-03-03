@@ -1,11 +1,12 @@
-const User = require("./schema");  // Import Mongoose model
+const User = require("./models/schema");  // Import Mongoose model
+const bcrypt = require("bcryptjs");
 
 // CREATE User
 const create = async (req, res) => {
     try {
-        const { name, email, country } = req.body;
+        const { name, email, country, password } = req.body;
 
-        if (!name || !email || !country) {
+        if (!name || !email || !country || !password) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
@@ -15,7 +16,9 @@ const create = async (req, res) => {
             return res.status(400).json({ message: "User already exists" });
         }
 
-        const newUser = new User({ name, email, country });
+        const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
+
+        const newUser = new User({ name, email, country, password: hashedPassword });
         await newUser.save();
 
         res.status(201).json({ message: "User data saved", user: newUser });
