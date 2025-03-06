@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import '../App.css'
 import {useEffect} from 'react'
+import { useNavigate } from 'react-router-dom'
 function Users() {
    
     const [users,setUsers] = useState([])
+    const navigate = useNavigate()
     
     useEffect(() => {
         fetch('http://localhost:5000/api/users/read')
@@ -12,6 +14,24 @@ function Users() {
         .catch((err) => console.log(`Error while fetching data : ${err}`))
     },[])
 
+    const handleUpdate = () => {
+        navigate('/update')
+    }
+    
+    const handleDelete = (email) => {
+       fetch(`http://localhost:5000/api/users/delete`,{
+        method : "DELETE",
+        headers :{
+            "Content-Type" : "application/json"
+        },
+        body : JSON.stringify({email})
+       }).then(() => console.log("User deleted"))
+       .catch((err) => console.log("error :",err))
+
+       setUsers(users.filter(user => user.email !== email));
+
+    }
+
 
     return(
         <div className='user'>
@@ -19,7 +39,9 @@ function Users() {
                 users.map((user) => (
                     <div className='user-card' key={user._id}>
                         <h3>{user.name}</h3>
-                        <p>Email: {user.email}</p>
+                        <p>Email: {user.email}</p><br></br>
+                        <button className='update' onClick={handleUpdate}>update</button>&nbsp;
+                        <button className='delete' onClick={() => handleDelete(user.email)}>delete</button>
                     </div>
                 ))
             ) : (
