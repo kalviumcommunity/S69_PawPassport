@@ -1,4 +1,4 @@
-const User = require("./models/schema");  // Import Mongoose model
+const User = require("./models/user");  // Import Mongoose model
 const bcrypt = require("bcryptjs");
 
 // CREATE User
@@ -6,7 +6,7 @@ const create = async (req, res) => {
     try {
         const { name, email, country, password } = req.body;
 
-        if (!name || !email || !country || !password) {
+        if (!name || !email || !country || !password) { 
             return res.status(400).json({ message: "All fields are required" });
         }
 

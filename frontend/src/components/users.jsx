@@ -7,6 +7,7 @@ function Users() {
     const [users,setUsers] = useState([])
     const navigate = useNavigate()
     
+    
     useEffect(() => {
         fetch('http://localhost:5000/api/users/read')
         .then((res) => res.json())
@@ -19,18 +20,24 @@ function Users() {
     }
     
     const handleDelete = (email) => {
-       fetch(`http://localhost:5000/api/users/delete`,{
-        method : "DELETE",
-        headers :{
-            "Content-Type" : "application/json"
-        },
-        body : JSON.stringify({email})
-       }).then(() => console.log("User deleted"))
-       .catch((err) => console.log("error :",err))
-
-       setUsers(users.filter(user => user.email !== email));
-
-    }
+        const confirmDelete = window.confirm("Are you sure you want to delete this user?");
+        
+        if (confirmDelete) {
+            fetch(`http://localhost:5000/api/users/delete`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email })
+            })
+            .then(() => {
+                console.log("User deleted");
+                setUsers(users.filter(user => user.email !== email));
+            })
+            .catch((err) => console.log("Error:", err));
+        }
+    };
+    
 
 
     return(

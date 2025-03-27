@@ -6,4 +6,3 @@ const userSchema = mongoose.Schema({
     country : String,
 })
 
-module.exports = mongoose.model("User",userSchema);

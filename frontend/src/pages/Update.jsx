@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Update() {
     const [formData, setFormData] = useState({
@@ -6,6 +7,7 @@ function Update() {
         email: ''
     });
 
+    const navigate = useNavigate()
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -20,7 +22,7 @@ function Update() {
             },
             body : JSON.stringify(formData)
         }
-        ).then(() => console.log('updated'))
+        ).then(() => navigate("/read"))
 
     };
 
